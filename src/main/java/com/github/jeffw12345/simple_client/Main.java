@@ -19,12 +19,10 @@ public class Main {
         if (resource == null) {
             throw new RuntimeException("Resource not found");
         }
-        Path filePath;
         try {
-            filePath = Paths.get(resource.toURI());
+            return Paths.get(resource.toURI());
         } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("URI syntax error", e);
         }
-        return filePath;
     }
 }

@@ -3,7 +3,6 @@ package com.github.jeffw12345.simple_client;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-
 import lombok.Builder;
 import lombok.Getter;
 
@@ -19,14 +18,12 @@ public class Customer {
     private String country;
     private String postcode;
 
-    public String toJsonString(){
+    public String toJsonString() {
         ObjectWriter objectWriter = new ObjectMapper().writer().withDefaultPrettyPrinter();
-        String json;
         try {
-            json = objectWriter.writeValueAsString(this);
+            return objectWriter.writeValueAsString(this);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Failed to serialize customer to JSON", e);
         }
-        return json;
     }
 }

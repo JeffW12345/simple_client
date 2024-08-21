@@ -11,12 +11,12 @@ import java.util.List;
 
 @Slf4j
 public class PostService {
+    private static final String POST_URL = "http://localhost:8080/customers";
+    private final HttpClient httpClient;
+
     public PostService(HttpClient httpClient) {
         this.httpClient = httpClient;
     }
-
-    private static final String POST_URL = "http://localhost:8080/customers";
-    private HttpClient httpClient;
 
     public void postCustomerList(List<Customer> customerObjectsToDispatch) {
         for (Customer customer : customerObjectsToDispatch) {
@@ -36,7 +36,6 @@ public class PostService {
 
             log.info("Response Code: {}", response.statusCode());
             log.info("Response Body: {}", response.body());
-
         } catch (IOException | InterruptedException e) {
             log.error("Failed to post customer: {}", customer, e);
             Thread.currentThread().interrupt();
