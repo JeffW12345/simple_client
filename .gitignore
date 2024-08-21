@@ -1,0 +1,70 @@
+# IntelliJ IDEA specific
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# IntelliJ IDEA Module and Workspace Files
+*.idea/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Build output directories
+out/
+target/
+
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+
+# Gradle
+.gradle/
+build/
+
+# Log files
+*.log
+
+# Java and other IDE files
+*.class
+*.jar
+*.war
+*.ear
+*.javadoc
+*.src
+
+# Bytecode and generated files
+*.class
+*.jar
+*.war
+*.ear
+*.zip
+*.gz
+*.tar.gz
+*.rar
+*.log
+*.map
+*.js.map
+*.coverage
+*.factorypath
+
+# Generated sources
+gen/
+generated-sources/
+generated-test-sources/
+
+# Annotation Processors
+.m2/
+.settings/
+.classpath
+.project
+.springBeans
+
+# Lombok generated files
+lombok.config
+lombok.out/
