@@ -1,9 +1,9 @@
 package com.github.jeffw12345.simple_client;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
-import org.mockito.MockitoAnnotations;
 
 import java.io.IOException;
 import java.net.URI;
@@ -15,17 +15,23 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
+import static org.mockito.MockitoAnnotations.openMocks;
 
-public class PostServiceTest {
+public class PostServiceTests {
 
     private PostService postService;
     private HttpClient mockHttpClient;
+    private HttpResponse<String> mockResponse;
 
     @BeforeEach
     public void setUp() {
-        MockitoAnnotations.openMocks(this);
-        mockHttpClient = mock(HttpClient.class);
-        postService = new PostService(mockHttpClient);
+        try (AutoCloseable ignored = openMocks(this)) {
+            mockHttpClient = mock(HttpClient.class);
+            postService = new PostService(mockHttpClient);
+            mockResponse = mock(HttpResponse.class, RETURNS_DEEP_STUBS);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Test
@@ -52,7 +58,7 @@ public class PostServiceTest {
                 .postcode("62701")
                 .build();
 
-        HttpResponse mockResponse = mock(HttpResponse.class);
+        HttpResponse<String> mockResponse = mock(HttpResponse.class, RETURNS_DEEP_STUBS);
         when(mockHttpClient.send(any(HttpRequest.class), eq(HttpResponse.BodyHandlers.ofString()))).thenReturn(mockResponse);
         when(mockResponse.statusCode()).thenReturn(200);
         when(mockResponse.body()).thenReturn("Success");
@@ -77,9 +83,6 @@ public class PostServiceTest {
                 .postcode("62701")
                 .build();
 
-        HttpClient mockHttpClient = mock(HttpClient.class);
-        HttpResponse mockResponse = mock(HttpResponse.class);
-
         when(mockResponse.statusCode()).thenReturn(200);
         when(mockResponse.body()).thenReturn("Success");
         when(mockHttpClient.send(any(HttpRequest.class), eq(HttpResponse.BodyHandlers.ofString())))
@@ -96,12 +99,20 @@ public class PostServiceTest {
         assertEquals(URI.create("http://localhost:8080/customers"), capturedRequest.uri());
 
         String expectedContentType = "application/json";
-        String actualContentType = capturedRequest.headers().firstValue("Content-Type").get();
+        String actualContentType = capturedRequest.headers().firstValue("Content-Type")
+                .orElseThrow(() -> new IllegalStateException("Content-Type header is missing"));
         assertEquals(expectedContentType, actualContentType);
 
         String expectedHttpVerb = "POST";
         String actualHttpVerb = capturedRequest.method();
-
         assertEquals(expectedHttpVerb, actualHttpVerb);
+    }
+
+    @Test
+    public void givenEmptyListPassedToPostCustomerList_thenExpectedExceptionThrown() {
+        List<Customer> emptyCustomerList = Collections.emptyList();
+        RuntimeException exception = Assertions.assertThrows(RuntimeException.class,
+                () -> postService.postCustomerList(emptyCustomerList));
+        Assertions.assertEquals("List of Customers empty", exception.getMessage());
     }
 }

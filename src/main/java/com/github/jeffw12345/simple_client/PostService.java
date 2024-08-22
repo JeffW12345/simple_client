@@ -19,6 +19,9 @@ public class PostService {
     }
 
     public void postCustomerList(List<Customer> customerObjectsToDispatch) {
+        if (customerObjectsToDispatch.isEmpty()){
+           throw new RuntimeException("List of Customers empty");
+        }
         for (Customer customer : customerObjectsToDispatch) {
             postCustomer(customer);
         }
