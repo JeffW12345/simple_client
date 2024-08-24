@@ -29,9 +29,10 @@ public class PostService {
 
     private void postCustomer(Customer customer) {
         try {
+            String jsonRepresentationOfCustomer = customer.toJsonString();
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(POST_URL))
-                    .POST(HttpRequest.BodyPublishers.ofString(customer.toJsonString()))
+                    .POST(HttpRequest.BodyPublishers.ofString(jsonRepresentationOfCustomer))
                     .header("Content-Type", "application/json")
                     .build();
 
