@@ -5,6 +5,8 @@
 
 This application works in conjunction with the [Simple Server](https://github.com/JeffW12345/simple_server) application.
 
+There is a demo of the apps [here](https://www.loom.com/share/c5dbbcf20a4c4d70aaa1f0efcdca2532). 
+
 The Simple Client performs the following functions:
 
 1. Converts the contents of a CSV file located in the `src/resources` folder into `Customer` objects.
