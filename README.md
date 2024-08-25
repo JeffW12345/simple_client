@@ -26,7 +26,10 @@ The CSV file, named `customer_data.csv`, is located in the `src/resources` direc
 
 ### Prerequisites
 
-Before running this client application, ensure that the [Simple Server](https://github.com/JeffW12345/simple_server) is running on `localhost` at port `8080`.
+Before running this client application, ensure that the [Simple Server](https://github.com/JeffW12345/simple_server) is 
+running on `localhost` at port `8080`.
+
+This app was created using Java 17, but may work on other versions of Java.
 
 ### Running the Application
 
